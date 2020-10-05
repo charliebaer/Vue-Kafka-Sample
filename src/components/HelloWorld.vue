@@ -7,56 +7,59 @@
     <button v-on:click="reverseMessage">Reverse Message</button>
   </div>
   <div id="app">
-      <p>{{ message }}</p>
-      <button v-on:click="reverseMessage">Reverse Message</button>
-      <p>
-          <input v-model="kafmessage" placeholder="Enter Kafka Message" />
-          <button v-on:click="sendkafmessagefunction">Send Message</button>
-          <p>Message is: {{ kafmessage }}</p>
-      </p>
-      
-    </div>
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+    <p></p>
+    <input v-model="kafmessage" placeholder="Enter Kafka Message" />
+    <button v-on:click="sendkafmessage">Send Message</button>
+  </div>
 </template>
 
 <script>
-var kaf = require("./producer.js");
-
-var Kafka = kaf();
-export default {
-  name: "HelloWorld",
-  props: {
-    msg: String,
-  },
-  data: function () {
-    return {
-      message: "Hello Vue.js!",
-      kafmessage: "kaf-message",
-    };
-  },
-
-  methods: {
-    reverseMessage: function () {
-      this.message = this.message.split("").reverse().join("");
+  export default {
+    name: "HelloWorld",
+    props: {
+      msg: String,
     },
-    sendkafmessage: function () {},
-  },
-};
+    data: function () {
+      return {
+        message: "Hello Vue.js!",
+        kafmessage: "kaf-message",
+      };
+    },
+    methods: {
+      reverseMessage: function () {
+        this.message = this.message.split("").reverse().join("");
+      },
+      sendkafmessage: function () {
+        // var kafevent = this.kafmessage;
+        var message = this.kafmessage
+        alert(message);
+        axios.post(`http://localhost:3000/${message}`, {
+          body: this.postBody
+        })
+      },
+    },
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  h3 {
+    margin: 40px 0 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  a {
+    color: #42b983;
+  }
 </style>
